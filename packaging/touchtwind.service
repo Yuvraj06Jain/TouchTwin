@@ -1,0 +1,45 @@
+[Unit]
+Description=TouchTwin: use your phone as this laptop's touchpad
+Documentation=file:///usr/local/share/doc/touchtwin/README.md
+After=network.target systemd-udevd.service
+Wants=network.target
+
+[Service]
+ExecStart=/usr/local/bin/touchtwind run
+User=touchtwin
+Group=touchtwin
+# Keys and paired phones: /var/lib/touchtwin, owned by touchtwin, unreadable by you.
+StateDirectory=touchtwin
+StateDirectoryMode=0700
+# Control socket: /run/touchtwin/control.sock.
+RuntimeDirectory=touchtwin
+RuntimeDirectoryMode=0755
+Restart=on-failure
+RestartSec=3
+
+# It needs the network, /dev/uinput and D-Bus (polkit). Nothing else.
+DevicePolicy=closed
+DeviceAllow=/dev/uinput rw
+CapabilityBoundingSet=
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectKernelLogs=yes
+ProtectControlGroups=yes
+ProtectClock=yes
+ProtectHostname=yes
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK
+RestrictNamespaces=yes
+RestrictRealtime=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+SystemCallArchitectures=native
+SystemCallFilter=@system-service
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

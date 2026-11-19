@@ -1,0 +1,9 @@
+/target
+*.sqlite3*
+.gradle/
+build/
+.kotlin/
+local.properties
+*.keystore
+*.jks
+android/app/src/main/jniLibs/

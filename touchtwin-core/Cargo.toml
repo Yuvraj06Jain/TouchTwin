@@ -1,0 +1,32 @@
+[package]
+name = "touchtwin-core"
+description = "Shared core for TouchTwin: identity, QR pairing, mutual-TLS QUIC transport, touch protocol"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+# Same crypto/TLS stack as EchoTwin: ring only (no aws-lc) so it cross-compiles for Android.
+quinn = { version = "0.11", default-features = false, features = ["rustls-ring", "runtime-tokio", "log"] }
+rustls = { version = "0.23", default-features = false, features = ["ring", "std", "logging"] }
+rcgen = { version = "0.14", default-features = false, features = ["crypto", "pem", "ring"] }
+sha2 = "0.10"
+hmac = "0.12"
+hkdf = "0.12"
+rand = "0.8"
+bytes = "1"
+
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "sync", "time", "net", "io-util", "fs"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+postcard = { version = "1", default-features = false, features = ["use-std"] }
+thiserror = "2"
+tracing = "0.1"
+hex = "0.4"
+base64 = "0.22"
+mdns-sd = "0.21"
+if-addrs = "0.15"
+
+[dev-dependencies]
+tempfile = "3"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
